@@ -111,8 +111,6 @@
 <p> flattenMap方法和map方法都有一个带参数value的block作为这个方法的参数。不同的是，flattenMap方法通过调用block（value）来创建一个新的方法。它可以灵活的定义新创建的信号。而map方法，将会创建一个和原来一模一样的信号，只不过新的信号传递的值变成了block（value）</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="keyword">self</span>.testTextField.rac_textSignal flattenMap:^__kindof RACSignal * _Nullable(<span class="built_in">NSString</span> * _Nullable value) &#123;</span><br><span class="line">    <span class="comment">//自定义返回内容</span></span><br><span class="line">    <span class="keyword">return</span> [RACReturnSignal <span class="keyword">return</span>:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;flattenMap自定义了返回信号：%@&quot;</span>,value]];</span><br><span class="line">&#125;] subscribeNext:^(<span class="type">id</span>  _Nullable x) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;flattenMap---%@&quot;</span>,x);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[[<span class="keyword">self</span>.testTextField.rac_textSignal map:^<span class="type">id</span> _Nullable(<span class="built_in">NSString</span> * _Nullable value) &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;map自定义了返回信号：%@&quot;</span>,value];</span><br><span class="line">&#125;] subscribeNext:^(<span class="type">id</span>  _Nullable x) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>,x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 
-<br/>
-
 <h3 id="RAC-ReactiveCocoa-介绍（三）——信号过滤"><a href="#RAC-ReactiveCocoa-介绍（三）——信号过滤" class="headerlink" title="RAC(ReactiveCocoa)介绍（三）——信号过滤"></a>RAC(ReactiveCocoa)介绍（三）——信号过滤</h3><blockquote>
 <p>信号过滤，在RAC中会对RACSignal信号发送的信息进行过滤，只有符合判断要求的信号才能被订阅到。<br>信号过滤有以下几种方法：filter、ignore、ignoreValue、distinctUntilChanged</p>
 </blockquote>
@@ -126,13 +124,11 @@
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)distinctUntilChanged</span><br><span class="line">&#123;</span><br><span class="line">    RACSubject *subject = [RACSubject subject];</span><br><span class="line">    [[subject distinctUntilChanged] subscribeNext:^(<span class="type">id</span>  _Nullable x) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;distinctUntilChanged-send:%@&quot;</span>,x);</span><br><span class="line">    &#125;];</span><br><span class="line">    [subject sendNext:@<span class="number">1111</span>];</span><br><span class="line">    [subject sendNext:@<span class="number">2222</span>];</span><br><span class="line">    [subject sendNext:@<span class="number">2222</span>]; <span class="comment">//和上次的信号一样就不会执行</span></span><br><span class="line">    [subject sendNext:@<span class="number">1111</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>2022-04-21 18:59:47.944559+0800 ReactiveObjc[69298:2255690] distinctUntilChanged-send:1111<br>2022-04-21 18:59:49.063194+0800 ReactiveObjc[69298:2255690] distinctUntilChanged-send:2222<br>2022-04-21 18:59:49.887426+0800 ReactiveObjc[69298:2255690] distinctUntilChanged-send:1111</p>
-<br/>
 
-<h3 id="RAC-ReactiveCocoa-介绍（四）——流程分析"><a href="#RAC-ReactiveCocoa-介绍（四）——流程分析" class="headerlink" title="RAC(ReactiveCocoa)介绍（四）——流程分析"></a>RAC(ReactiveCocoa)介绍（四）——流程分析</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/05/16/%E5%A5%BD%E5%A5%BD%E5%AD%A6%E4%B9%A0/" data-id="cl38oqh2j0001v29k4fbdebpv" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/05/16/%E5%A5%BD%E5%A5%BD%E5%AD%A6%E4%B9%A0/" data-id="cl38owwsj00016j9kdlrj40db" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +177,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/05/16/hello-world/" data-id="cl38oqh2e0000v29k0vwdere9" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/05/16/hello-world/" data-id="cl38owwse00006j9k3gix8xyb" class="article-share-link">Share</a>
       
       
     </footer>
